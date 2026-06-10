@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
-COPY model/model_final.pt model/model_final.pt
+COPY model ./model
 
 ENV HOST=0.0.0.0
 ENV PORT=8000

@@ -83,7 +83,15 @@ def _infer_num_blocks(state_dict: dict) -> int:
 
 
 print("=" * 50)
-print("MODEL_PATH =", os.getenv("MODEL_PATH"))
+print("ENV MODEL_PATH =", os.getenv("MODEL_PATH"))
+print("MODEL_PATH =", MODEL_PATH)
+print("FILES IN MODEL DIR:")
+
+if os.path.exists("model"):
+    print(os.listdir("model"))
+else:
+    print("MODEL DIR NOT FOUND")
+
 print("=" * 50)
 
 def load_model_weights(path: str) -> RockPaperScissorsCNN:
