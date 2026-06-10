@@ -39,17 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-/Fe/node_modules
-/Fe/.next
-/Fe/build
-/Fe/out
-/Fe/dist
-/Fe/public
-/Fe/src
-/Fe/styles
-/Fe/utils
-/Fe/components
-/Fe/pages
-/Fe/app
+/Fe/node_modules    
 /Fast/.venv
+/Fe/.next
+/Fast/__pycache__/
