@@ -11,16 +11,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
-COPY model ./model
+COPY best_model.pt .
 
-ENV HOST=0.0.0.0
-ENV PORT=8000
-ENV MODEL_PATH=model/model_final.pt
+ENV MODEL_PATH=best_model.pt
 ENV CORS_ORIGINS=*
+ENV HOST=0.0.0.0
 
 EXPOSE 8000
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')" || exit 1
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

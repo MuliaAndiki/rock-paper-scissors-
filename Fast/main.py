@@ -12,12 +12,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 from pydantic import BaseModel
 from torchvision import transforms
+from pathlib import Path
 
 
 load_dotenv()
 
 CLASS_NAMES = ["Kertas", "Batu", "Gunting"]
-MODEL_PATH = os.getenv("MODEL_PATH", "model/best_model.pt")
+MODEL_PATH = Path(
+    os.getenv(
+        "MODEL_PATH",
+        str(Path(__file__).resolve().parent / "best_model.pt")
+    )
+)
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",")
@@ -82,10 +88,6 @@ def _infer_num_blocks(state_dict: dict) -> int:
     return 3 if any(key.startswith("block3.") for key in state_dict) else 2
 
 
-print("=" * 50)
-print("ENV MODEL_PATH =", os.getenv("MODEL_PATH"))
-print("MODEL_PATH =", MODEL_PATH)
-print("FILES IN MODEL DIR:")
 
 if os.path.exists("model"):
     print(os.listdir("model"))
