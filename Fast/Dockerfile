@@ -13,11 +13,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY main.py .
 COPY best.pt .
 
-ENV ML_HOST=0.0.0.0
-ENV ML_PORT=8000
-ENV ML_MODEL_VERSION=best.pt-v1.0.0
-ENV ML_CONFIDENCE_THRESHOLD=0.5
-ENV BACKEND_URL=http://localhost:5000
+ENV HOST=0.0.0.0
+ENV PORT=8000
+ENV MODEL_VERSION=model/best_model.pth
+ENV CORS_ORIGINS=*
 
 EXPOSE 8000
 
