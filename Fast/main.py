@@ -13,10 +13,11 @@ from PIL import Image
 from pydantic import BaseModel
 from torchvision import transforms
 
+
 load_dotenv()
 
 CLASS_NAMES = ["Kertas", "Batu", "Gunting"]
-MODEL_PATH = os.getenv("MODEL_PATH", "model/model_final.pt")
+MODEL_PATH = os.getenv("MODEL_PATH", "model/best_model.pt")
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",")
@@ -81,11 +82,16 @@ def _infer_num_blocks(state_dict: dict) -> int:
     return 3 if any(key.startswith("block3.") for key in state_dict) else 2
 
 
+print("=" * 50)
+print("MODEL_PATH =", os.getenv("MODEL_PATH"))
+print("=" * 50)
+
 def load_model_weights(path: str) -> RockPaperScissorsCNN:
     if not os.path.exists(path):
         raise FileNotFoundError(f"Model weights not found at: {path}")
 
     checkpoint = torch.load(path, map_location=device, weights_only=False)
+
 
     if isinstance(checkpoint, nn.Module):
         checkpoint = checkpoint.state_dict()
@@ -100,6 +106,8 @@ def load_model_weights(path: str) -> RockPaperScissorsCNN:
     cnn.load_state_dict(checkpoint)
     cnn.to(device)
     cnn.eval()
+
+    
     return cnn
 
 
@@ -198,5 +206,6 @@ async def predict_file(file: UploadFile = File(...)) -> dict[str, float | str]:
 
 if __name__ == "__main__":
     import uvicorn
+    
 
     uvicorn.run("main:app", host=HOST, port=PORT, reload=False)
