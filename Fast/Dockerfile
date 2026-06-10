@@ -11,11 +11,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
-COPY model/best_model.pth .
+COPY model/model_final.pt model/model_final.pt
 
 ENV HOST=0.0.0.0
 ENV PORT=8000
-ENV MODEL_VERSION=model/best_model.pth
+ENV MODEL_PATH=model/model_final.pt
 ENV CORS_ORIGINS=*
 
 EXPOSE 8000
