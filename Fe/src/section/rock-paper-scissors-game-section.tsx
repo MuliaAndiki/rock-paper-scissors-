@@ -251,10 +251,14 @@ export function RockPaperScissorsGameSection({
                   </p>
                   <p className="mt-1 text-sm text-rose-200/90">
                     Tantangan:{" "}
-                    <span className="font-semibold text-white">{targetPose}</span>
+                    <span className="font-semibold text-white">
+                      {targetPose}
+                    </span>
                     {" · "}
                     Prediksi Akhir:{" "}
-                    <span className="font-semibold text-white">{prediction}</span>
+                    <span className="font-semibold text-white">
+                      {prediction}
+                    </span>
                   </p>
                   <p className="mt-1 text-sm text-rose-200/70">
                     Ubah gesture tangan Anda agar sesuai dengan tantangan.

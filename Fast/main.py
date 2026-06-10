@@ -31,16 +31,15 @@ CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model: nn.Module | None = None
 
-transform = transforms.Compose(
-    [
-        transforms.Resize((300, 300)),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225],
-        ),
-    ]
-)
+transform = transforms.Compose([
+    transforms.Resize((64, 64)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225],
+    ),
+])
+
 
 
 def _make_conv_block(in_channels: int, out_channels: int) -> nn.Sequential:
@@ -128,16 +127,24 @@ def predict_image(image: Image.Image) -> dict[str, float | str]:
     rgb_image = image.convert("RGB")
     tensor = transform(rgb_image).unsqueeze(0).to(device)
 
+   
+
     with torch.no_grad():
         logits = model(tensor)
         probabilities = F.softmax(logits, dim=1)
         confidence_score, predicted_index = torch.max(probabilities, dim=1)
 
     index = predicted_index.item()
-    return {
+
+    result = {
         "label": CLASS_NAMES[index],
         "confidence_score": round(confidence_score.item(), 4),
     }
+
+    print("Prediction Result:", result)
+
+    return result
+
 
 
 def decode_base64_image(image_base64: str) -> Image.Image:
